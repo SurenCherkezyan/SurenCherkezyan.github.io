@@ -2,30 +2,18 @@
 
 A plain HTML/CSS/JS site with no build step, ready for GitHub Pages.
 
-```
-index.html                 Work (home)
-about.html                 About
-projects/
-  asset-matching.html      R asset-matching tool (Ministry of Infrastructure)
-  spill-model.html         Random-walk contaminant spill model
-  boids.html               Boids, with a live demo
-assets/
-  style.css                all styling
-  site.js                  wave placement + the background flock
-  img/                     figures
-  Suren_Cherkezyan_Resume.pdf
-.nojekyll                  tells GitHub Pages to serve files as-is
-```
+Every file sits at the top level (no folders), so you can select them all and upload in one go.
+
 
 ## Put it online with GitHub Pages
 
 1. Create a new repository on GitHub. Name it `YOUR-USERNAME.github.io` to get the address
    `https://YOUR-USERNAME.github.io`, or use any other name to get
    `https://YOUR-USERNAME.github.io/REPO-NAME`.
-2. Upload the contents of this folder to the repository's root (drag and drop on github.com works),
-   or from a terminal:
+2. Click **uploading an existing file**, select every file in this folder, drop them in and commit.
+   Or from a terminal:
    ```
-   cd site
+   cd site-flat
    git init
    git add .
    git commit -m "Portfolio"
@@ -39,13 +27,13 @@ assets/
 ## Before publishing
 
 - **LinkedIn and GitHub links:** replace `YOUR-LINKEDIN` and `YOUR-GITHUB` in `about.html`.
-- **Portrait:** add `assets/img/portrait.jpg` and follow the comment in `about.html`.
+- **Portrait:** add `portrait.jpg` and follow the comment in `about.html`.
 - **Résumé:** the PDF includes your phone number. Remove it from the PDF, or delete the file and
   the Résumé links, if you'd rather not publish it.
 
 ## Adding a project
 
-Copy one of the pages in `projects/`, change the text and images, and add a link to it in
+Copy one of the project pages (e.g. `boids.html`), change the text and images, and add a link to it in
 `index.html`. Any block marked `data-boid-avoid` is steered around by the flock.
 
 ## Tuning the flock

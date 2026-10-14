@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boids — Suren Cherkezyan</title>
+<meta name="description" content="A flocking simulation built from three local rules: alignment, cohesion and separation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=IBM+Plex+Mono:wght@400&family=Karla:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+
+  <div class="flock" data-flock data-count="140" data-drift="0.05" style="top: 700px; bottom: 0" aria-hidden="true"><canvas></canvas></div>
+
+  <svg class="wave" aria-hidden="true" viewBox="0 0 1280 180" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M0 150 L1280 150" stroke-opacity="0.14"/><path d="M0 140 C 300 140, 420 138, 520 120 C 590 106, 610 30, 660 30 C 720 30, 760 110, 900 128 C 1040 144, 1160 140, 1280 141" stroke-opacity="0.4" vector-effect="non-scaling-stroke"/><path d="M0 146 C 340 146, 470 144, 580 132 C 650 122, 680 72, 730 72 C 790 72, 840 124, 980 136 C 1100 145, 1200 146, 1280 146" stroke-opacity="0.26" stroke-dasharray="5 6" vector-effect="non-scaling-stroke"/></svg>
+
+  <header class="site-header">
+    <a class="name" href="index.html">suren cherkezyan</a>
+    <nav class="nav" aria-label="Site">
+      <a href="index.html" aria-current="page">Work</a>
+      <a href="about.html">About</a>
+      <a href="Suren_Cherkezyan_Resume.pdf">Résumé</a>
+    </nav>
+  </header>
+
+  <main class="project">
+    <div class="project-head" data-boid-avoid>
+      <h1>Boids</h1>
+      <p class="meta">personal · python, pygame · written without AI</p>
+    </div>
+
+    <figure data-boid-avoid>
+      <div class="demo" data-flock data-no-avoid data-count="100"><canvas aria-label="Live flocking simulation" role="img"></canvas></div>
+      <figcaption>Live: 100 boids running the same three rules. This browser version is a JavaScript port of the Python original; the faint flock drifting behind this page is too.</figcaption>
+    </figure>
+
+    <div class="prose" data-boid-avoid>
+      <p>Boids are a classic model of flocking: no leader and no plan, just each bird reacting to the neighbours it can see. Three local rules are enough for whole flocks to form, turn and split.</p>
+      <ul>
+        <li><strong>Alignment</strong> — steer toward the average heading of neighbours within 25 px (strength 0.05).</li>
+        <li><strong>Cohesion</strong> — drift toward the average position of neighbours within 120 px (strength 0.004).</li>
+        <li><strong>Separation</strong> — push away from anything closer than 20 px, harder the closer it gets (1/d², strength 10).</li>
+      </ul>
+      <p>Each boid only sees what's within 120° of its heading, so it ignores the ones directly behind it. The combined steering is capped at 0.25 per frame and every boid keeps a fixed speed of 4, which stops the flock from collapsing into one point or flying apart.</p>
+    </div>
+
+    <figure data-boid-avoid>
+      <pre><code>def update(self):
+    pos = self.pos
+    alignaccel = self.align(pos)
+    cohaccel = self.cohesion(pos)
+    sepaccel = self.seperation(pos)
+
+    accel = alignaccel + cohaccel + sepaccel
+    if accel.length() &gt; 0.25:
+        accel.scale_to_length(0.25)
+
+    self.vel += accel
+    pygame.math.Vector2.scale_to_length(self.vel, speed)
+    self.pos += self.vel</code></pre>
+      <figcaption>Each frame: add up the three rules, cap the turn, keep the speed fixed, move.</figcaption>
+    </figure>
+
+    <div class="prose" data-boid-avoid>
+      <h2>ON THIS SITE</h2>
+      <p>The flock behind these pages uses the same rules, slowed down, with one addition: instead of wrapping around the screen, boids turn away from the edges and from blocks of text and images, the same way they avoid each other.</p>
+    </div>
+
+    <nav class="pager" aria-label="Projects" data-boid-avoid>
+      <a href="spill-model.html">← contaminant spill model</a>
+      <a href="index.html">all work →</a>
+    </nav>
+  </main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>
