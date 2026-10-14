@@ -4,6 +4,16 @@ A plain HTML/CSS/JS site with no build step, ready for GitHub Pages.
 
 Every file sits at the top level (no folders), so you can select them all and upload in one go.
 
+## Your GIFs
+
+Save your matplotlib animations into this folder with exactly these names:
+
+- `boids.gif` — boids page
+- `spill-continuous.gif` — spill page, top (continuous leak)
+- `spill-instant.gif` — spill page, lower (instantaneous spill)
+
+Until they're added, those spots show the image's description instead.
+
 
 ## Put it online with GitHub Pages
 
@@ -41,5 +51,6 @@ Copy one of the project pages (e.g. `boids.html`), change the text and images, a
 Each area is a `<div class="flock" data-flock ...>` with a `<canvas>` inside:
 
 - `data-count` — number of boids
+- `data-origin` — `bottom` (default) or `right`: where the flock bursts out from
 - `data-drift` — downward lean (0 = none), switched off once a visitor reaches the bottom
 - the inline `style` (`top`, `height`, `bottom`) — where the flock lives on the page

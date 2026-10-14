@@ -13,7 +13,7 @@
 <body>
 <div class="page">
 
-  <div class="flock" data-flock data-count="180" data-drift="0.05" style="top: 700px; bottom: 0" aria-hidden="true"><canvas></canvas></div>
+  <div class="flock" data-flock data-count="180" data-origin="right" data-drift="0.05" style="top: 420px; bottom: 0" aria-hidden="true"><canvas></canvas></div>
 
   <svg class="wave" aria-hidden="true" viewBox="0 0 1280 180" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M0 150 L1280 150" stroke-opacity="0.14"/><path d="M0 140 C 300 140, 420 138, 520 120 C 590 106, 610 30, 660 30 C 720 30, 760 110, 900 128 C 1040 144, 1160 140, 1280 141" stroke-opacity="0.4" vector-effect="non-scaling-stroke"/><path d="M0 146 C 340 146, 470 144, 580 132 C 650 122, 680 72, 730 72 C 790 72, 840 124, 980 136 C 1100 145, 1200 146, 1280 146" stroke-opacity="0.26" stroke-dasharray="5 6" vector-effect="non-scaling-stroke"/></svg>
 
@@ -33,7 +33,7 @@
     </div>
 
     <figure data-boid-avoid>
-      <img class="frame" src="continuous.gif" alt="Animation of a continuous contaminant leak spreading downstream through soil, with a profile of particles per metre below." loading="lazy">
+      <img class="frame" src="spill-continuous.gif" alt="Animation of a continuous contaminant leak spreading downstream through soil, with a profile of particles per metre below." loading="lazy">
       <figcaption>A continuous leak: 1,000 particles released every 3-day step for 600 days. Top: particle density; bottom: particles per 1 m column.</figcaption>
     </figure>
 
@@ -62,34 +62,15 @@ alive[:active] &amp;= (np.random.random(active) &gt; (decayrate * dt))</code></p
       <p>I ran the same model two ways. In an instantaneous spill, all 10,000 particles are released at once: the puff drifts downstream and grows wider and flatter as it goes, so its peak concentration keeps falling. In a continuous leak, a new batch is released every step, so the plume stretches out behind a moving front and settles into a near-constant concentration near the source.</p>
     </div>
 
-    <div class="pair">
-      <figure data-boid-avoid>
-        <img class="frame" src="instant_day150.png" alt="Instantaneous spill after 150 days: a compact puff about 150 m downstream." loading="lazy">
-        <figcaption>Instantaneous spill, day 150.</figcaption>
-      </figure>
-      <figure data-boid-avoid>
-        <img class="frame" src="instant_day450.png" alt="Instantaneous spill after 450 days: a wider, flatter puff further downstream." loading="lazy">
-        <figcaption>Instantaneous spill, day 450: wider, flatter, further.</figcaption>
-      </figure>
-      <figure data-boid-avoid>
-        <img class="frame" src="continuous_day150.png" alt="Continuous leak after 150 days." loading="lazy">
-        <figcaption>Continuous leak, day 150.</figcaption>
-      </figure>
-      <figure data-boid-avoid>
-        <img class="frame" src="continuous_day450.png" alt="Continuous leak after 450 days: a long plume with a steady concentration behind its front." loading="lazy">
-        <figcaption>Continuous leak, day 450: a steady plume behind a moving front.</figcaption>
-      </figure>
-    </div>
 
     <figure data-boid-avoid>
-      <img class="frame" src="instant.gif" alt="Animation of an instantaneous spill drifting and spreading downstream." loading="lazy">
-      <figcaption>The instantaneous spill over 600 days.</figcaption>
+      <img class="frame" src="spill-instant.gif" alt="Animation of an instantaneous spill drifting and spreading downstream." loading="lazy">
+      <figcaption>An instantaneous spill: 10,000 particles released at once, over 600 days.</figcaption>
     </figure>
 
     <div class="prose" data-boid-avoid>
       <h2>NEXT</h2>
       <p>Comparing the particle results against the analytical advection–dispersion solution, and carrying the same approach into the river routing model I'm building, where the flow itself changes over time.</p>
-      <p class="note">Figures re-rendered from my scripts (instantspill.py and contspillv2.py) with the same parameters.</p>
     </div>
 
     <nav class="pager" aria-label="Projects" data-boid-avoid>
