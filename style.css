@@ -57,9 +57,10 @@ img { max-width: 100%; display: block; }
 
 .name {
   font-family: 'Major Mono Display', monospace;
-  font-size: clamp(30px, 3.4vw, 40px);
+  font-size: clamp(20px, 6vw, 40px);
   color: var(--name);
   text-decoration: none;
+  white-space: nowrap;
 }
 .name:hover { color: var(--accent); }
 
@@ -170,3 +171,24 @@ pre .c { color: #7fa5ad; }
 }
 
 
+
+/* ---------- phones ---------- */
+
+@media (max-width: 700px) {
+  .page { padding: 20px 20px 72px; }
+  .site-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .nav { gap: 4px 24px; }
+  .nav a { padding: 6px 0; }                       /* larger tap targets */
+  .wave { top: 92px; width: 900px; height: 70px; }  /* sits under the stacked name + nav */
+  main { margin-top: 40px; padding-top: 24px; }
+  .work { gap: 56px; }
+  .work > section { gap: 22px; }
+  .item { flex-direction: column; gap: 2px; }
+  .entry ul { padding-left: 20px; }
+  .about { gap: 48px; }
+  .bio { font-size: 18px; }
+  .portrait { flex-basis: 100%; max-width: 360px; }
+  .project { gap: 40px; }
+  .prose { font-size: 16px; }
+  pre { font-size: 12px; padding: 14px 16px; margin: 0 -20px; }
+}
