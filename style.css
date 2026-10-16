@@ -25,7 +25,7 @@ body {
 a { color: var(--link); text-underline-offset: 4px; }
 a:hover { color: var(--accent); }
 
-img { max-width: 100%; display: block; }
+img, video { max-width: 100%; display: block; }
 
 .page {
   position: relative;

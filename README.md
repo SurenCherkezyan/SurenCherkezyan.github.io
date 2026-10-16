@@ -4,15 +4,17 @@ A plain HTML/CSS/JS site with no build step, ready for GitHub Pages.
 
 Every file sits at the top level (no folders), so you can select them all and upload in one go.
 
-## Your GIFs
+## Your animations
 
-Save your matplotlib animations into this folder with exactly these names:
+The animations are MP4 videos that autoplay, loop and stay muted, so they behave like GIFs.
+Keep them in this folder with exactly these names:
 
-- `boids.gif` — boids page
-- `spill-continuous.gif` — spill page, top (continuous leak)
-- `spill-instant.gif` — spill page, lower (instantaneous spill)
+- `boids.mp4` — boids page
+- `spill-continuous.mp4` — spill page, top (continuous leak)
+- `spill-instant.mp4` — spill page, lower (instantaneous spill)
 
-Until they're added, those spots show the image's description instead.
+To re-export from matplotlib, save with H.264 and `yuv420p` so they play in every browser:
+`anim.save("name.mp4", writer="ffmpeg", fps=30, dpi=150, extra_args=["-vcodec", "libx264", "-pix_fmt", "yuv420p"])`
 
 
 ## Put it online with GitHub Pages
