@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Boids — Suren Cherkezyan</title>
-<meta name="description" content="A flocking simulation built from three local rules: alignment, cohesion and separation.">
+<title>Simulating a flock from three simple rules — Suren Cherkezyan</title>
+<meta name="description" content="A Python flocking simulation built from three local rules: alignment, cohesion and separation, also running as this site's background.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=IBM+Plex+Mono:wght@400&family=Karla:wght@400;500;600&display=swap" rel="stylesheet">
@@ -28,23 +28,33 @@
 
   <main class="project">
     <div class="project-head" data-boid-avoid>
-      <h1>Boids</h1>
-      <p class="meta">personal · python, pygame · written without AI</p>
+      <h1>Simulating a flock from three simple rules</h1>
+      <p class="meta">personal · python, pygame, javascript · written without AI</p>
+    </div>
+
+    <div class="prose" data-boid-avoid>
+      <h2>OBJECTIVE</h2>
+      <p>Build a classic model of flocking: no leader and no plan, just each bird reacting to the neighbours it can see.</p>
     </div>
 
     <figure data-boid-avoid>
       <img class="frame" src="boids.gif" alt="100 boids flocking: groups form, turn together and split apart." loading="lazy">
-      <figcaption>100 boids running the three rules (boids.py).</figcaption>
+      <figcaption>100 boids running the three rules.</figcaption>
     </figure>
 
     <div class="prose" data-boid-avoid>
-      <p>Boids are a classic model of flocking: no leader and no plan, just each bird reacting to the neighbours it can see. Three local rules are enough for whole flocks to form, turn and split.</p>
+      <h2>WORK</h2>
       <ul>
-        <li><strong>Alignment</strong> — steer toward the average heading of neighbours within 25 px (strength 0.05).</li>
-        <li><strong>Cohesion</strong> — drift toward the average position of neighbours within 120 px (strength 0.004).</li>
-        <li><strong>Separation</strong> — push away from anything closer than 20 px, harder the closer it gets (1/d², strength 10).</li>
+        <li>Built the simulation in Python (pygame) from three local rules:
+          <ul>
+            <li><strong>Alignment:</strong> steer toward the average heading of neighbours.</li>
+            <li><strong>Cohesion:</strong> drift toward the average position of neighbours.</li>
+            <li><strong>Separation:</strong> push away from anything too close.</li>
+          </ul>
+        </li>
+        <li>Capped how fast each boid can turn and fixed its speed, which stops the flock from collapsing into one point or flying apart.</li>
+        <li>Ported the same rules to JavaScript as the flock of fish behind this site, steering around text and images.</li>
       </ul>
-      <p>Each boid only sees what's within 120° of its heading, so it ignores the ones directly behind it. The combined steering is capped at 0.25 per frame and every boid keeps a fixed speed of 4, which stops the flock from collapsing into one point or flying apart.</p>
     </div>
 
     <figure data-boid-avoid>
@@ -65,8 +75,17 @@
     </figure>
 
     <div class="prose" data-boid-avoid>
-      <h2>ON THIS SITE</h2>
-      <p>The flock behind these pages is a JavaScript port of the same rules, slowed down, with one addition: instead of wrapping around the screen, boids are drawn as small fish and turn away from the edges and from blocks of text and images, the same way they avoid each other.</p>
+      <h2>RESULTS</h2>
+      <ul>
+        <li>Whole flocks form, turn together and split apart from the three rules alone.</li>
+        <li>Runs as the live background on every page of this site.</li>
+      </ul>
+
+      <h2>WHAT I LEARNED</h2>
+      <ul>
+        <li>Boids was my first personal project in Python after completing the course I was following.</li>
+        <li>The major challenges were making the code efficient and getting the interactions between boids to work properly, as it was hard to tell whether it was working.</li>
+      </ul>
     </div>
 
     <nav class="pager" aria-label="Projects" data-boid-avoid>

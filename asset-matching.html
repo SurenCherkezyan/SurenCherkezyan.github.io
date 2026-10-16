@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Matching ministry asset records in R — Suren Cherkezyan</title>
-<meta name="description" content="An R pipeline that joins mismatched facility records across Ontario Ministry of Infrastructure datasets, using a cascade join and TF-IDF text matching.">
+<title>Matching 715 ministry asset records — Suren Cherkezyan</title>
+<meta name="description" content="An R tool that matched and cleaned 715 facility records across Ontario Ministry of Infrastructure datasets, using a cascade join and TF-IDF text matching.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=IBM+Plex+Mono:wght@400&family=Karla:wght@400;500;600&display=swap" rel="stylesheet">
@@ -28,24 +28,19 @@
 
   <main class="project">
     <div class="project-head" data-boid-avoid>
-      <h1>Matching ministry asset records in R</h1>
+      <h1>Matching 715 ministry asset records across mismatched datasets</h1>
       <p class="meta">professional · Ministry of Infrastructure, Corporate Management Unit · May – Aug 2026 · R, tidyverse</p>
     </div>
 
-    <figure data-boid-avoid>
-      <img class="frame" src="moi-slide.png" alt="Summary slide of the R data-cleaning script: objective, work, results and code excerpts.">
-      <figcaption>Project summary slide.</figcaption>
-    </figure>
-
     <div class="prose" data-boid-avoid>
       <h2>OBJECTIVE</h2>
-      <p>The ministry's Infrastructure Modelling and Intelligence units needed one clean list of facilities to feed predictive software that forecasts infrastructure needs. The same facilities were recorded across several datasets with different IDs, names and naming conventions — so the job was to join mismatched records reliably.</p>
+      <p>The ministry's Infrastructure Modelling and Intelligence units needed one clean list of facilities to feed predictive software that forecasts infrastructure needs. The same facilities were recorded across several datasets with different IDs and naming conventions, so the job was to join mismatched records reliably.</p>
 
       <h2>WORK</h2>
       <ul>
-        <li>Built an automated pipeline in R (tidyverse) that merges records from multiple sources using a cascade: each record is resolved by the most reliable source available, falling back to the next only where data is missing.</li>
-        <li>For facilities with no shared ID, built a TF-IDF text-matching tool that compares names across naming conventions, with a confidence score to flag unreliable matches.</li>
-        <li>Went through several rounds of user review to adapt the tool to the team's needs.</li>
+        <li>Built an automated pipeline in R (tidyverse) that merges records from multiple sources using a cascade approach to prioritize reliable sources.</li>
+        <li>For facilities with no shared ID across datasets, built a TF-IDF text-matching tool to match across different naming conventions, with a confidence score to flag unreliable matches.</li>
+        <li>Went through multiple rounds of user review to adapt the tool to the team's needs.</li>
       </ul>
     </div>
 
@@ -61,7 +56,7 @@ phase2 &lt;- phase1 |&gt;
   select(name, master_number, location.x, lat.y, long.y) |&gt;
   rename(lat = lat.y, long = long.y, location = location.x) |&gt;
   bind_rows(filter(phase1, !is.na(lat)))</code></pre>
-      <figcaption>The cascade: each record is resolved by the most reliable source available.</figcaption>
+      <figcaption>Each record is resolved by the most reliable source available.</figcaption>
     </figure>
 
     <figure data-boid-avoid>
@@ -88,7 +83,7 @@ missing$id         &lt;- sapply(results, \(r) r$moi_id)
 missing$score      &lt;- sapply(results, \(r) r$score)
 missing$margin     &lt;- sapply(results, \(r) r$margin)
 missing$norm_score &lt;- sapply(results, \(r) r$norm_score)</code></pre>
-      <figcaption>Confidence: how strong the best score was, and how far ahead it was of the second-best match.</figcaption>
+      <figcaption>How strong the best score was, and how far ahead it was of the second-best match, were used for confidence testing.</figcaption>
     </figure>
 
     <div class="prose" data-boid-avoid>
@@ -96,8 +91,14 @@ missing$norm_score &lt;- sapply(results, \(r) r$norm_score)</code></pre>
       <ul>
         <li>Matched and cleaned 715 asset records from separate ministry datasets.</li>
         <li>Removed all duplicate and conflicting records.</li>
-        <li>Matched 100% of facilities that existed in the given datasets.</li>
-        <li>Recovered every missing facility the team had been searching for by hand before the project.</li>
+        <li>Matched 100% of facilities which existed in the given datasets.</li>
+        <li>Recovered all the missing facilities which the team was searching for manually prior to the project.</li>
+      </ul>
+
+      <h2>WHAT I LEARNED</h2>
+      <ul>
+        <li>Learned R at home while working at the ministry; this project was the first time applying it, and its implementation challenges taught me a lot.</li>
+        <li>Learned the process in which code is scrutinized and implemented by senior staff.</li>
       </ul>
       <p class="note">Most of the work I did for the Ministry of Infrastructure is protected and can't be shown here.</p>
     </div>

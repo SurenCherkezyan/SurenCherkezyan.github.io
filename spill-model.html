@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Contaminant spill: random-walk particle model — Suren Cherkezyan</title>
-<meta name="description" content="A random-walk particle model of a contaminant spill moving through soil, for an instantaneous spill and a continuous leak.">
+<title>Simulating a contaminant spill in groundwater — Suren Cherkezyan</title>
+<meta name="description" content="A random-walk particle model of a contaminant spill moving through groundwater, for an instantaneous spill and a continuous leak.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=IBM+Plex+Mono:wght@400&family=Karla:wght@400;500;600&display=swap" rel="stylesheet">
@@ -28,40 +28,34 @@
 
   <main class="project">
     <div class="project-head" data-boid-avoid>
-      <h1>Contaminant spill: random-walk particle model</h1>
+      <h1>Simulating how a contaminant spill spreads through groundwater</h1>
       <p class="meta">personal · python, numpy, matplotlib · written without AI</p>
+    </div>
+
+    <div class="prose" data-boid-avoid>
+      <h2>OBJECTIVE</h2>
+      <p>Extend a simple random walk into a model of a contaminant moving through groundwater: spreading out (dispersion) while the flow carries it downstream (advection).</p>
     </div>
 
     <figure data-boid-avoid>
       <img class="frame" src="spill-continuous.gif" alt="Animation of a continuous contaminant leak spreading downstream through soil, with a profile of particles per metre below." loading="lazy">
-      <figcaption>A continuous leak: 1,000 particles released every 3-day step for 600 days. Top: particle density; bottom: particles per 1 m column.</figcaption>
+      <figcaption>A continuous leak over 600 days. Top: particle density. Bottom: particles per 1 m column.</figcaption>
     </figure>
 
     <div class="prose" data-boid-avoid>
-      <p>It started as a random walk: one particle, one random step at a time. Release thousands of them and the cloud they make behaves like a contaminant in groundwater — it spreads out (dispersion) while the flow carries it downstream (advection).</p>
-      <p>Each particle's step is a fixed downstream drift plus a random jump drawn from a normal distribution. The size of that jump comes from the soil's dispersivity: σ = √(2αvΔt), with a longitudinal dispersivity of 1 m along the flow and 0.5 m across it, a flow velocity of 1 m/day and 3-day time steps on a 300 × 700 m domain. Particles that leave the domain are dropped, and there's an optional decay rate for contaminants that break down over time.</p>
+      <h2>WORK</h2>
+      <ul>
+        <li>Built a particle model in Python where each particle drifts downstream with the flow and takes a random jump every time step.</li>
+        <li>Ran the model two ways: an instantaneous spill of 10,000 particles, and a continuous leak releasing a new batch every step.</li>
+        <li>Added an optional decay rate for contaminants that break down over time.</li>
+      </ul>
     </div>
 
     <figure data-boid-avoid>
-      <pre><code>sigmaL = (2 * alphaL * velocity * dt) ** 0.5   <span class="c"># spread along the flow</span>
-sigmaT = (2 * alphaT * velocity * dt) ** 0.5   <span class="c"># spread across it</span>
-
-XiL = np.random.normal(0, sigmaL, active)
-XiT = np.random.normal(0, sigmaT, active)
-walkers[0, :active] += XiT                     <span class="c"># random sideways jump</span>
-walkers[1, :active] += XiL + velocity * dt     <span class="c"># random jump + drift downstream</span>
-
-inside = ((0 &lt;= walkers[0]) &amp; (walkers[0] &lt; size[0])) &amp; ((0 &lt;= walkers[1]) &amp; (walkers[1] &lt; size[1]))
-alive[:] &amp;= inside
-alive[:active] &amp;= (np.random.random(active) &gt; (decayrate * dt))</code></pre>
+      <pre><code>walkers[0, :active] += XiT                     <span class="c"># random sideways jump</span>
+walkers[1, :active] += XiL + velocity * dt     <span class="c"># random jump + drift downstream</span></code></pre>
       <figcaption>The core of each time step.</figcaption>
     </figure>
-
-    <div class="prose" data-boid-avoid>
-      <h2>TWO KINDS OF SPILL</h2>
-      <p>I ran the same model two ways. In an instantaneous spill, all 10,000 particles are released at once: the puff drifts downstream and grows wider and flatter as it goes, so its peak concentration keeps falling. In a continuous leak, a new batch is released every step, so the plume stretches out behind a moving front and settles into a near-constant concentration near the source.</p>
-    </div>
-
 
     <figure data-boid-avoid>
       <img class="frame" src="spill-instant.gif" alt="Animation of an instantaneous spill drifting and spreading downstream." loading="lazy">
@@ -69,8 +63,21 @@ alive[:active] &amp;= (np.random.random(active) &gt; (decayrate * dt))</code></p
     </figure>
 
     <div class="prose" data-boid-avoid>
+      <h2>RESULTS</h2>
+      <ul>
+        <li>Instantaneous spill: the puff drifts downstream and grows wider and flatter, so its peak concentration keeps falling.</li>
+        <li>Continuous leak: the plume stretches out behind a moving front and settles into a near-constant concentration near the source.</li>
+      </ul>
+
+      <h2>WHAT I LEARNED</h2>
+      <ul>
+        <li>The most difficult part was understanding which assumptions I could make to simplify the original paper's simulation.</li>
+      </ul>
+
       <h2>NEXT</h2>
-      <p>Comparing the particle results against the analytical advection–dispersion solution, and carrying the same approach into the river routing model I'm building, where the flow itself changes over time.</p>
+      <ul>
+        <li>Comparing the particle results against the analytical advection–dispersion solution.</li>
+      </ul>
     </div>
 
     <nav class="pager" aria-label="Projects" data-boid-avoid>
