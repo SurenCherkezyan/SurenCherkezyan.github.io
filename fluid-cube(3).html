@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A handheld water simulation you can tilt — Suren Cherkezyan</title>
+<meta name="description" content="Work in progress: a palm-sized brass cube with a screen that shows simulated water sloshing as the cube is tilted, running a FLIP fluid simulation on an RP2040 microcontroller.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=IBM+Plex+Mono:wght@400&family=Karla:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .concept { width: 100%; height: auto; display: block; color: var(--accent); }
+  .concept .t { font-family: 'IBM Plex Mono', monospace; font-size: 15px; letter-spacing: .08em; fill: var(--ink); }
+  .concept .s { font-family: 'Karla', system-ui, sans-serif; font-size: 15px; fill: var(--muted); }
+  @media (max-width: 700px) {            /* phones: keep the step names readable, drop the small lines */
+    .concept .t { font-size: 34px; }
+    .concept .s { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="flock" data-flock data-count="60" data-origin="right" data-drift="0.05" style="top: 420px; bottom: 0" aria-hidden="true"><canvas></canvas></div>
+
+  <svg class="wave" aria-hidden="true" viewBox="0 0 1280 180" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M0 150 L1280 150" stroke-opacity="0.14"/><path d="M0 140 C 300 140, 420 138, 520 120 C 590 106, 610 30, 660 30 C 720 30, 760 110, 900 128 C 1040 144, 1160 140, 1280 141" stroke-opacity="0.4" vector-effect="non-scaling-stroke"/><path d="M0 146 C 340 146, 470 144, 580 132 C 650 122, 680 72, 730 72 C 790 72, 840 124, 980 136 C 1100 145, 1200 146, 1280 146" stroke-opacity="0.26" stroke-dasharray="5 6" vector-effect="non-scaling-stroke"/></svg>
+
+  <header class="site-header">
+    <a class="name" href="index.html">suren cherkezyan</a>
+    <nav class="nav" aria-label="Site">
+      <a href="index.html" aria-current="page">Work</a>
+      <a href="about.html">About</a>
+      <a href="Suren_Cherkezyan_Resume.pdf">Résumé</a>
+    </nav>
+  </header>
+
+  <main class="project">
+    <div class="project-head" data-boid-avoid>
+      <h1>Building a handheld water simulation you can tilt</h1>
+      <p class="meta">personal · in progress · rp2040, c++, python</p>
+    </div>
+
+    <div class="prose" data-boid-avoid>
+      <h2>OBJECTIVE</h2>
+      <p>Build a palm-sized cube with a small screen that shows water sloshing inside it. Tilt the cube and the water moves as if it were really there.</p>
+    </div>
+
+    <figure data-boid-avoid>
+      <svg class="concept" viewBox="0 0 960 230" role="img" aria-label="Concept: a motion sensor reads which way is down, an RP2040 microcontroller simulates the water, and an OLED screen draws it.">
+        <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <!-- 1. tilt: a tilted cube with gravity arrow -->
+          <g transform="translate(120 82)">
+            <rect x="-38" y="-38" width="76" height="76" transform="rotate(-18)"/>
+            <path d="M58 -30 V22" stroke-opacity=".55"/>
+            <path d="M51 13 L58 23 L65 13" stroke-opacity=".55"/>
+          </g>
+          <!-- arrow -->
+          <path d="M235 82 H330" stroke-opacity=".4"/><path d="M322 75 L331 82 L322 89" stroke-opacity=".4"/>
+          <!-- 2. simulate: grid with particles -->
+          <g transform="translate(480 82)">
+            <rect x="-48" y="-44" width="96" height="88"/>
+            <path d="M-16 -44 V44 M16 -44 V44 M-48 -15 H48 M-48 15 H48" stroke-opacity=".3"/>
+          </g>
+          <!-- arrow -->
+          <path d="M630 82 H725" stroke-opacity=".4"/><path d="M717 75 L726 82 L717 89" stroke-opacity=".4"/>
+          <!-- 3. display: screen with a water surface -->
+          <g transform="translate(840 82)">
+            <rect x="-46" y="-46" width="92" height="92" rx="4"/>
+            <path d="M-46 14 C-26 2, -8 4, 6 14 S 32 26, 46 6" />
+          </g>
+        </g>
+        <g fill="currentColor">
+          <!-- particles in the bottom-right of the grid, pooled by gravity -->
+          <g transform="translate(480 82)" fill-opacity=".75">
+            <circle cx="-38" cy="34" r="3"/><circle cx="-26" cy="36" r="3"/><circle cx="-14" cy="33" r="3"/><circle cx="-2" cy="36" r="3"/><circle cx="10" cy="34" r="3"/><circle cx="22" cy="36" r="3"/><circle cx="34" cy="33" r="3"/>
+            <circle cx="-30" cy="24" r="3"/><circle cx="-18" cy="22" r="3"/><circle cx="-6" cy="25" r="3"/><circle cx="6" cy="22" r="3"/><circle cx="18" cy="24" r="3"/><circle cx="30" cy="21" r="3"/><circle cx="40" cy="25" r="3"/>
+            <circle cx="0" cy="11" r="3"/><circle cx="12" cy="9" r="3"/><circle cx="24" cy="12" r="3"/><circle cx="36" cy="8" r="3"/>
+          </g>
+          <path transform="translate(840 82)" d="M-46 14 C-26 2, -8 4, 6 14 S 32 26, 46 6 V46 H-46 Z" fill-opacity=".18"/>
+        </g>
+        <g class="labels" text-anchor="middle">
+          <text x="120" y="172" class="t">TILT</text>
+          <text x="120" y="196" class="s">motion sensor reads</text>
+          <text x="120" y="214" class="s">which way is down</text>
+          <text x="480" y="172" class="t">SIMULATE</text>
+          <text x="480" y="196" class="s">FLIP water simulation</text>
+          <text x="480" y="214" class="s">on a Seeed RP2040 board</text>
+          <text x="840" y="172" class="t">DISPLAY</text>
+          <text x="840" y="196" class="s">water drawn on a</text>
+          <text x="840" y="214" class="s">128 × 128 OLED screen</text>
+        </g>
+      </svg>
+      <figcaption>Concept: the sensor tells the simulation which way gravity points, and the screen shows the result.</figcaption>
+    </figure>
+
+    <div class="prose" data-boid-avoid>
+      <h2>CONCEPT</h2>
+      <ul>
+        <li>An MPU6050 motion sensor measures which way gravity points as the cube is tilted.</li>
+        <li>A Seeed Studio RP2040 board runs a FLIP water simulation: particles carry the water, and a grid keeps it from compressing.</li>
+        <li>The water is drawn on a 1.5" SH1107 OLED screen on one face of the cube.</li>
+        <li>The frame is a soldered 2 mm brass-rod cube about 2" on each side, wired with 0.9 mm brass wire, with a TP4056 module for battery charging.</li>
+      </ul>
+
+      <h2>APPROACH</h2>
+      <ul>
+        <li>Prototype the simulation in Python first, then port it to C++ for the RP2040.</li>
+        <li>Following Matthias Müller's <a href="https://www.matthiasmueller.info/tenMinutePhysics">"How to write a FLIP water simulator"</a> (Ten Minute Physics) as the reference method.</li>
+      </ul>
+
+      <h2>STATUS</h2>
+      <p>In progress. Photos, code and results will be added as the build continues.</p>
+    </div>
+
+    <nav class="pager" aria-label="Projects" data-boid-avoid>
+      <a href="boids.html">← boids</a>
+      <a href="index.html">all work →</a>
+    </nav>
+  </main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>
