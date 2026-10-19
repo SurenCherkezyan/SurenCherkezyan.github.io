@@ -149,7 +149,7 @@
       p.vx *= SPEED / vm; p.vy *= SPEED / vm;
       p.x = Math.min(W, Math.max(0, p.x + p.vx * PACE));
       p.y = Math.min(H, Math.max(0, p.y + p.vy * PACE));
-      p.ph += 0.3;                                                   // tail-beat phase
+      p.ph += 0.17;                                                   // tail-beat phase
     }
   };
 
