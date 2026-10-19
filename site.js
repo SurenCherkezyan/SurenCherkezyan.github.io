@@ -15,7 +15,7 @@
 
 (function () {
   var PEAK = 660 / 1280;   // x of the wave's peak, as a fraction of the drawing's width
-  var SPEED = 4;           // boids.py speed
+  var SPEED = 2;           // boids.py speed
   var PACE = 0.35;         // fraction of one boids.py frame per screen frame (calmer motion)
   var TURN = 0.5;          // strength of the push from edges and text at contact
   var CELL = 120;          // neighbour grid cell = largest perception radius (cohesion)
