@@ -20,6 +20,7 @@
   var TURN = 0.5;          // strength of the push from edges and text at contact
   var CELL = 120;          // neighbour grid cell = largest perception radius (cohesion)
   var ALPHA = 0.28;        // fish opacity
+  var SIZE = 1.6;          // fish size: 1 = original, 2 = twice as big
 
   var accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#1f7a96';
 
@@ -111,9 +112,9 @@
           var d = Math.sqrt(d2);
           if (p.vx * dx + p.vy * dy > -0.5 * SPEED * d) {            // within 120 degrees of heading
             cx += dx; cy += dy; nc++;                               // cohesion, radius 120
-            if (d < 25) { ax += o.vx; ay += o.vy; na++; }           // alignment, radius 25
+            if (d < 25 * SIZE) { ax += o.vx; ay += o.vy; na++; }    // alignment, radius 25 (grows with fish size)
           }
-          if (d < 20) { sx -= dx / d2; sy -= dy / d2; }             // separation, radius 20
+          if (d < 20 * SIZE) { sx -= dx / d2; sy -= dy / d2; }      // separation, radius 20 (grows with fish size)
         }
       }
 
@@ -157,8 +158,8 @@
   // Points are given in the fish's own frame (x forward) and turned to its heading.
   function addFish(ctx, p) {
     var hx = p.vx / SPEED, hy = p.vy / SPEED, X = p.x, Y = p.y;
-    function mx(a, b) { return X + a * hx - b * hy; }
-    function my(a, b) { return Y + a * hy + b * hx; }
+    function mx(a, b) { return X + (a * hx - b * hy) * SIZE; }
+    function my(a, b) { return Y + (a * hy + b * hx) * SIZE; }
     ctx.moveTo(mx(5.5, 0), my(5.5, 0));
     ctx.quadraticCurveTo(mx(1, -3), my(1, -3), mx(-4, 0), my(-4, 0));
     ctx.quadraticCurveTo(mx(1, 3), my(1, 3), mx(5.5, 0), my(5.5, 0));
